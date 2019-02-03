@@ -28,18 +28,6 @@ resource "aws_key_pair" "helloworld" {
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCNqRoQwBd52bWybx4bTOOvTZWvU0pVs4s8PENeKpSKRAApQ/CMLfKDRkvMs/g0ZZ7bgkRw64Xxk1CiUH+P9Ephpa9KY08quD9F6kICadr9uxr7Xbo595aGeRENgxuOZrcKBL1+bu59qUsykWmdhX8dCc8vH0sLbX9gaDt5x2npDkyXNP69TEKN56q3tj4bd0AwF5E4vH1z4COWHl606jnhap3Z++vDS8OytD+AANPEPUpnA7SkF8rz288tjAmnaILt+1VMJBV3w0LtBqwT88D2CbWUCOinrV9GKWHXlihZ7pIVYXFkdUKaaqFyduHKf/0IO33y8vTCjWYp14MSV/pF"
 }
 
-//resource "aws_lb" "helloworld-lb" {
-//  name               = "helloworld-lb"
-//  internal           = false
-//  load_balancer_type = "application"
-//  security_groups    = ["${aws_security_group.web0-http-public.id}"]
-//  subnets            = ["${module.vpc.public_subnets}"]
-//  tags = {
-//    Environment = "production"
-//  }
-//}
-
-
 resource "aws_elb" "helloworld-elb" {
   name               = "${var.vpc_name}-helloworld"
   security_groups = ["${aws_security_group.web0-http-public.id}"]
@@ -81,6 +69,21 @@ resource "aws_autoscaling_group" "helloworld-asg" {
     propagate_at_launch = "true"
   }
 }
+
+
+#Example using alb as well
+
+//resource "aws_lb" "helloworld-lb" {
+//  name               = "helloworld-lb"
+//  internal           = false
+//  load_balancer_type = "application"
+//  security_groups    = ["${aws_security_group.web0-http-public.id}"]
+//  subnets            = ["${module.vpc.public_subnets}"]
+//  tags = {
+//    Environment = "production"
+//  }
+//}
+
 
 
 //resource "aws_lb_target_group" "web0-helloworld" {
